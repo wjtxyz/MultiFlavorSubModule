@@ -1,0 +1,3 @@
+[submodule "app/src/flavors"]
+	path = app/src/flavors
+	url = https://github.com/wjtxyz/flavors.git
