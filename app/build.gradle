@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+
+    defaultConfig {
+        applicationId "com.xxx.multiflavourbuildtest"
+        minSdkVersion 25
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField "String", "COUNTRY", '"CHINA"'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        manifestPlaceholders = [providerName: 'com.xxx.provider']
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions 'version'
+    productFlavors {
+        mini01B {
+            dimension = 'version'
+            matchingFallbacks = ['']
+            manifestPlaceholders = [configPath: '/sdcard/111.json']
+            resConfigs ''
+            buildConfigField "String", "COUNTRY", '"mini01B"'
+        }
+        mini01C {
+            dimension = 'version'
+            buildConfigField "String", "COUNTRY", '"mini01C"'
+        }
+        all { flavor ->
+            sourceSets[flavor.name].setRoot("src/flavors/${flavor.name}")
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+}
